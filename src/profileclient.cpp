@@ -2,8 +2,6 @@
 
 #include "profileclient.h"
 
-Q_DECLARE_METATYPE(QList<MyStructure>)
-
 QDBusArgument &operator<<(QDBusArgument &argument, const MyStructure &mystruct)
 {
     argument.beginStructure();
@@ -26,27 +24,40 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, MyStructure &myst
 ProfileClient::ProfileClient(QObject *parent) :
     QObject(parent)
 {
-    qDBusRegisterMetaType<QVariantMapList>();
-
-    QDBusConnection::sessionBus().connect(PROFILED_SERVICE, PROFILED_PATH, PROFILED_INTERFACE,
-                    "profile_changed", QString("bbsa(sss)"), this,
-                    SIGNAL(handleProfileChanged(bool, bool, QString, QList<MyStructure>)));
+    qDBusRegisterMetaType<MyStructureList>();
 
     profiled = new QDBusInterface(PROFILED_SERVICE, PROFILED_PATH, PROFILED_INTERFACE, QDBusConnection::sessionBus());
+
+    QDBusMessage reply = profiled->call(PROFILED_GET_PROFILE);
+
+    if (reply.type() == QDBusMessage::ErrorMessage) {
+        qDebug() << "error reply:" << reply.errorName();
+        profileName = "general";
+    } else if (reply.arguments().count() > 0) {
+        profileName = reply.arguments().at(0).toString();
+    }
+
+    QDBusConnection::sessionBus().connect(PROFILED_SERVICE, PROFILED_PATH, PROFILED_INTERFACE,
+                                          PROFILED_CHANGED, this,
+                                          SIGNAL(handleProfileChanged(bool, bool, QString, MyStructureList)));
 }
 
-void ProfileClient::handleProfileChanged(bool changed, bool active, QString profile, QList<MyStructure> keyValType)
+QString ProfileClient::getProfileName() const
 {
-    qDebug() << "handleProfileChanged" << changed << active << profile;
-    foreach (MyStructure item, keyValType) {
-        qDebug() << item.type << item.key << item.val;
+    return profileName;
+}
+
+void ProfileClient::handleProfileChanged(bool, bool active, const QString &profile, const MyStructureList &)
+{
+    if (active) {
+        profileName = profile;
     }
 }
 
 QVariant ProfileClient::getProfileValue(const QString &key, const QVariant &def) const
 {
     QDBusMessage reply = profiled->call(PROFILED_GET_VALUE,
-                                        QVariant("general"),
+                                        profileName,
                                         QVariant(key));
 
     if (reply.type() == QDBusMessage::ErrorMessage) {
@@ -60,7 +71,7 @@ QVariant ProfileClient::getProfileValue(const QString &key, const QVariant &def)
 bool ProfileClient::setProfileValue(const QString &key, const QVariant &value)
 {
     QDBusMessage reply = profiled->call(PROFILED_SET_VALUE,
-                                        QVariant("general"),
+                                        profileName,
                                         QVariant(key),
                                         value);
 

@@ -13,7 +13,7 @@ Name:       harbour-personal-ringtones
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Personal Ringtones
-Version:    0.1.0
+Version:    0.1.1
 Release:    1
 Group:      Qt/Qt
 License:    LICENSE
@@ -29,8 +29,7 @@ BuildRequires:  pkgconfig(dconf)
 BuildRequires:  desktop-file-utils
 
 %description
-Short description of my SailfishOS Application
-
+Simple proof-of-concept hacky-tricky application for customizing ringtones per contact
 
 %prep
 %setup -q -n %{name}-%{version}

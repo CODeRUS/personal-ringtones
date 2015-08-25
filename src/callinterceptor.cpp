@@ -36,7 +36,7 @@ void IncomingChannel::channelInvalid(Tp::DBusProxy *,
 void IncomingChannel::channelReady(Tp::PendingOperation *operation)
 {
     _ready = true;
-    if (operation->isValid()) {
+    if (operation->isValid() && _interceptor->profiled.getProfileName() != "silent") {
         QString number = _channel->targetId();
         qDebug() << number;
         QString ringtone = Settings::GetInstance(_interceptor)->value(number, QString()).toString();

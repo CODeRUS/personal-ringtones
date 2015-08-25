@@ -6,16 +6,15 @@
 
 #include "profile_dbus.h"
 
-typedef QList<QVariantMap> QVariantMapList;
-Q_DECLARE_METATYPE(QVariantMapList)
-
 struct MyStructure {
     QString key, val, type;
 };
+Q_DECLARE_METATYPE(MyStructure)
+typedef QList<MyStructure> MyStructureList;
+Q_DECLARE_METATYPE(MyStructureList)
+
 QDBusArgument &operator<<(QDBusArgument &a, const MyStructure &mystruct);
 const QDBusArgument &operator>>(const QDBusArgument &a, MyStructure &mystruct);
-
-Q_DECLARE_METATYPE(MyStructure)
 
 class ProfileClient : public QObject
 {
@@ -23,14 +22,16 @@ class ProfileClient : public QObject
 public:
     explicit ProfileClient(QObject *parent = 0);
 
+    QString getProfileName() const;
     QVariant getProfileValue(const QString &key, const QVariant &def) const;
     bool setProfileValue(const QString &key, const QVariant &value);
 
 private slots:
-    void handleProfileChanged(bool changed, bool active, QString profile, QList<MyStructure> keyValType);
+    void handleProfileChanged(bool, bool active, const QString &profile, const MyStructureList &);
 
 private:
     QDBusInterface *profiled;
+    QString profileName;
 
 };
 

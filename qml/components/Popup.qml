@@ -3,6 +3,7 @@ import Sailfish.Silica 1.0
 
 MouseArea {
     id: popup
+    parent: __silica_applicationwindow_instance
     anchors.top: parent.top
     width: parent.width
     height: Math.max(Theme.itemSizeLarge, message.paintedHeight + (Theme.paddingLarge * 2))
@@ -33,7 +34,6 @@ MouseArea {
         if (hideTimer.running)
             hideTimer.stop()
         popup.opacity = 0.0
-        popup.parent = appWindow
     }
 
     function show() {
