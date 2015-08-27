@@ -1,17 +1,10 @@
+#include <QCoreApplication>
+
 #include "settings.h"
 
 Settings::Settings(QObject *parent) :
     MDConfAgent("/apps/personalRingtones/", parent)
 {
-}
-
-Settings *Settings::GetInstance(QObject *parent)
-{
-    static Settings* lsSingleton = NULL;
-    if (!lsSingleton) {
-        lsSingleton = new Settings(parent);
-    }
-    return lsSingleton;
 }
 
 QString Settings::getRingtone(const QString &number) const
@@ -32,4 +25,9 @@ void Settings::removeRingtone(const QString &number)
 QVariantMap Settings::getItems() const
 {
     return listItems("");
+}
+
+QString Settings::getVersion() const
+{
+    return QCoreApplication::instance()->applicationVersion();
 }

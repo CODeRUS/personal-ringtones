@@ -1,0 +1,13 @@
+[Unit]
+Description=PersonalRingtones
+Requires=lipstick.service
+After=lipstick.service
+
+[Service]
+Type=dbus
+ExecStart=/usr/bin/invoker -s --type=qt5 /usr/bin/personalringtones
+BusName=org.coderus.personalringtones
+Restart=always
+
+[Install]
+WantedBy=post-user-session.target

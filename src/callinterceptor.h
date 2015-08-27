@@ -7,6 +7,7 @@
 #include <TelepathyQt/ClientRegistrar>
 
 #include "profileclient.h"
+#include "settings.h"
 
 class IncomingChannel;
 class IncomingCall;
@@ -97,12 +98,20 @@ protected:
 class CallInterceptor : public QObject
 {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.coderus.personalringtones")
 
 public:
     explicit CallInterceptor(QObject *parent = 0);
     bool isValid();
 
     ProfileClient profiled;
+    Settings settings;
+
+    Q_SCRIPTABLE QVariantMap getItems() const;
+    Q_SCRIPTABLE QString getRingtone(const QString &number) const;
+    Q_SCRIPTABLE void setRingtone(const QString &number, const QString &value);
+    Q_SCRIPTABLE void removeRingtone(const QString &number);
+    Q_SCRIPTABLE QString getVersion() const;
 
 private:
     bool _failed;

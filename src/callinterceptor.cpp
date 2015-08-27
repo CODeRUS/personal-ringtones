@@ -39,9 +39,9 @@ void IncomingChannel::channelReady(Tp::PendingOperation *operation)
     if (operation->isValid() && _interceptor->profiled.getProfileName() != "silent") {
         QString number = _channel->targetId();
         qDebug() << number;
-        QString ringtone = Settings::GetInstance(_interceptor)->value(number, QString()).toString();
+        QString ringtone = _interceptor->settings.value(number, QString()).toString();
         if (ringtone.isEmpty()) {
-            _interceptor->profiled.setProfileValue("ringing.alert.tone", Settings::GetInstance(_interceptor)->value("default", QString("/usr/share/sounds/jolla-ringtones/stereo/jolla-ringtone.wav")).toString());
+            _interceptor->profiled.setProfileValue("ringing.alert.tone", _interceptor->settings.value("default", QString("/usr/share/sounds/jolla-ringtones/stereo/jolla-ringtone.wav")).toString());
         }
         else {
             _interceptor->profiled.setProfileValue("ringing.alert.tone", ringtone);
@@ -227,16 +227,44 @@ void CallInterceptor::init()
 {
     _registrar = Tp::ClientRegistrar::create();
     _client = InterceptClient::create(this);
-    _registrar->registerClient(Tp::AbstractClientPtr::dynamicCast(_client), "PresonalRingtones", true);
+    _registrar->registerClient(Tp::AbstractClientPtr::dynamicCast(_client), "PersonalRingtones", true);
     qDebug() << "Telepathy client registered";
 
-    QString def = Settings::GetInstance(this)->value("default", QString()).toString();
+    QString def = settings.value("default", QString()).toString();
     if (def.isEmpty()) {
-        Settings::GetInstance(this)->setValue("default", profiled.getProfileValue("ringing.alert.tone", "/usr/share/sounds/jolla-ringtones/stereo/jolla-ringtone.wav"));
+        settings.setValue("default", profiled.getProfileValue("ringing.alert.tone", "/usr/share/sounds/jolla-ringtones/stereo/jolla-ringtone.wav"));
     }
+
+    qDebug() << "DBus service" << (QDBusConnection::sessionBus().registerService("org.coderus.personalringtones") ? "registered" : "error!");
+    qDebug() << "DBus object" << (QDBusConnection::sessionBus().registerObject("/", this, QDBusConnection::ExportScriptableContents) ? "registered" : "error!");
 }
 
 bool CallInterceptor::isValid()
 {
     return !_failed;
+}
+
+QVariantMap CallInterceptor::getItems() const
+{
+    return settings.getItems();
+}
+
+QString CallInterceptor::getRingtone(const QString &number) const
+{
+    return settings.getRingtone(number);
+}
+
+void CallInterceptor::setRingtone(const QString &number, const QString &value)
+{
+    settings.setRingtone(number, value);
+}
+
+void CallInterceptor::removeRingtone(const QString &number)
+{
+    settings.removeRingtone(number);
+}
+
+QString CallInterceptor::getVersion() const
+{
+    return settings.getVersion();
 }

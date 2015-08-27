@@ -1,0 +1,16 @@
+{
+    "translation_catalog": "settings-system",
+    "entries": [
+        {
+            "path": "system_settings/look_and_feel/personalringtones",
+            "type": "page",
+            "title": "Personal ringtones",
+            "translation_id": "sailfishos-personalringtones-title",
+            "icon": "/usr/share/personalringtones/icons/personalringtones.png",
+            "order": 5000,
+            "params": {
+                "source": "/usr/share/personalringtones/qml/FirstPage.qml"
+            }
+        }
+    ]
+}

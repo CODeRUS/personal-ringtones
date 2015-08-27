@@ -1,44 +1,27 @@
-#include <sailfishapp.h>
-#include <QGuiApplication>
-#include <QQuickView>
+#include <QCoreApplication>
 #include <QScopedPointer>
-#include <QtQml>
 
 #include <TelepathyQt/Debug>
 #include <TelepathyQt/Types>
 
+#include <QtDBus>
+
 #include "callinterceptor.h"
-#include "settings.h"
 
-static QObject *settings_singleton(QQmlEngine *, QJSEngine *)
-{
-    return Settings::GetInstance(0);
-}
-
-int main(int argc, char *argv[])
+Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     Tp::registerTypes();
     //Tp::enableDebug(true);
     Tp::enableWarnings(true);
 
-    CallInterceptor interceptor;
-    if (!interceptor.isValid()) {
+    QScopedPointer<CallInterceptor> interceptor(new CallInterceptor(0));
+    if (!interceptor->isValid()) {
         return 1;
     }
 
-    qmlRegisterSingletonType<Settings>("harbour.personal.ringtones", 1, 0, "RingtoneSettings", settings_singleton);
-
-
-    QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
-    app->setApplicationDisplayName("Personal Ringtones");
+    QScopedPointer<QCoreApplication> app(new QCoreApplication(argc, argv));
     app->setApplicationName("PersonalRingtones");
     app->setApplicationVersion(QString(APP_VERSION));
-
-    QScopedPointer<QQuickView> view(SailfishApp::createView());
-    view->setTitle("Personal Ringtones");
-
-    view->setSource(SailfishApp::pathTo("qml/main.qml"));
-    view->show();
 
     return app->exec();
 }

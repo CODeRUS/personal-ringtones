@@ -24,6 +24,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, MyStructure &myst
 ProfileClient::ProfileClient(QObject *parent) :
     QObject(parent)
 {
+    qDBusRegisterMetaType<MyStructure>();
     qDBusRegisterMetaType<MyStructureList>();
 
     profiled = new QDBusInterface(PROFILED_SERVICE, PROFILED_PATH, PROFILED_INTERFACE, QDBusConnection::sessionBus());
