@@ -50,7 +50,7 @@ Page {
         }
 
         function removeRingtone(number) {
-            typedCall("setRingtone",
+            typedCall("removeRingtone",
                       [
                           {
                               'type': 's',
