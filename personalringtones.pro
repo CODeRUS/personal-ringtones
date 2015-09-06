@@ -3,7 +3,7 @@ target.path = /usr/bin
 
 QT += dbus
 CONFIG += link_pkgconfig qt-boostable
-PKGCONFIG += TelepathyQt5 dconf
+PKGCONFIG += TelepathyQt5 dconf Qt5SystemInfo qofono-qt5
 
 INCLUDEPATH += /usr/include/telepathy-qt5
 
@@ -30,17 +30,17 @@ SOURCES += \
     src/main.cpp \
     src/callinterceptor.cpp \
     src/profileclient.cpp \
-    src/settings.cpp \
     src/mdconf.cpp \
-    src/mdconfagent.cpp
+    src/mdconfagent.cpp \
+    src/settings.cpp
 
 HEADERS += \
     src/callinterceptor.h \
     src/profileclient.h \
     src/profile_dbus.h \
-    src/settings.h \
     src/mdconf_p.h \
-    src/mdconfagent.h
+    src/mdconfagent.h \
+    src/settings.h
 
 OTHER_FILES += \
     rpm/personalringtones.spec

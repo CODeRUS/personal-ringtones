@@ -17,9 +17,14 @@ public:
     Q_INVOKABLE QVariantMap getItems() const;
     Q_INVOKABLE QString getVersion() const;
 
-signals:
+    Q_INVOKABLE void setMutedList(const QString &muted);
+    Q_INVOKABLE QStringList getMutedList() const;
 
-public slots:
+    Q_INVOKABLE void setNormalList(const QString &normal);
+    Q_INVOKABLE QStringList getNormalList() const;
+
+private:
+    MDConfAgent *extra;
 
 };
 

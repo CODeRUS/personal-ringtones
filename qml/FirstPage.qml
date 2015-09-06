@@ -13,6 +13,9 @@ Page {
     property var numbers: Object.keys(values)
     property var values: ({})
 
+    property var muted: []
+    property var normal: []
+
     Component.onCompleted: {
         settings.getItems()
     }
@@ -29,6 +32,18 @@ Page {
                       [],
                       function(output) {
                           values = output
+                      }
+                     )
+            typedCall("getMutedList",
+                      [],
+                      function(output) {
+                          muted = output
+                      }
+                     )
+            typedCall("getNormalList",
+                      [],
+                      function(output) {
+                          normal = output
                       }
                      )
         }
@@ -60,12 +75,36 @@ Page {
                       ]
                      )
         }
+
+        function setMutedList(list) {
+            typedCall("setMutedList",
+                      [
+                          {
+                              'type': 's',
+                              'value': list.length > 0 ? list.join(";") : ""
+                          }
+
+                      ]
+                     )
+        }
+
+        function setNormalList(list) {
+            typedCall("setNormalList",
+                      [
+                          {
+                              'type': 's',
+                              'value': list.length > 0 ? list.join(";") : ""
+                          }
+
+                      ]
+                     )
+        }
     }
 
-    SilicaListView {
+    SilicaFlickable {
         id: view
         anchors.fill: parent
-        model: numbers
+        contentHeight: column.height
 
         PullDownMenu {
             MenuItem {
@@ -74,95 +113,241 @@ Page {
             }
         }
 
-        header: PageHeader { title: "Personal Ringtones" }
+        Column {
+            id: column
+            width: parent.width
+            spacing: 0
 
-        delegate: ListItem {
-            id: item
-            contentHeight: itemContent.height
-            menu: contextMenu
-            preventStealing: true
-            property Person person: people.count ? people.personByPhoneNumber(modelData, false) : null
-            ListView.onRemove: animateRemoval(listItem)
-            function remove() {
-                remorseAction("Deleting", function() {
-                    settings.removeRingtone(modelData)
-                    var temp = values
-                    delete temp[modelData]
-                    values = temp
-                })
+            PageHeader { title: "Personal Ringtones" }
+
+            SectionHeader { text: "Custom ringtones" }
+
+            Repeater {
+                model: numbers
+                delegate: ListItem {
+                    id: item
+                    menu: contextMenu
+                    preventStealing: true
+                    contentHeight: itemContent.height
+                    property Person person: people.count ? people.personByPhoneNumber(modelData, false) : null
+                    ListView.onRemove: animateRemoval(item)
+                    function remove() {
+                        settings.removeRingtone(modelData)
+                        var temp = values
+                        delete temp[modelData]
+                        values = temp
+                    }
+                    ValueButton {
+                        id: itemContent
+                        highlighted: false
+                        label: modelData === "default" ? "Default ringtone" : (item.person ? item.person.displayLabel : modelData)
+                        value: metadataReader.getTitle(values[modelData])
+                        description: modelData
+
+                        onClicked: {
+                            var dialog = pageStack.push(dialogComponent, {
+                                activeFilename: values[modelData],
+                                activeSoundTitle: value,
+                                activeSoundSubtitle: "Contact ringtone",
+                                noSound: false
+                                })
+
+                            dialog.accepted.connect(
+                                function() {
+                                    settings.setRingtone(modelData, dialog.selectedFilename)
+                                    var temp = values
+                                    temp[modelData] = dialog.selectedFilename
+                                    values = temp
+                                })
+                        }
+
+                        onPressAndHold: {
+                            if (modelData !== "default") {
+                                item.showMenu()
+                            }
+                        }
+                    }
+                    Component {
+                        id: contextMenu
+                        ContextMenu {
+                            MenuItem {
+                                text: "Remove"
+                                onClicked: remove()
+                            }
+                        }
+                    }
+                }
             }
-            ValueButton {
-                id: itemContent
 
-                label: modelData === "default" ? "Default ringtone" : (item.person ? item.person.displayLabel : modelData)
-                value: metadataReader.getTitle(values[modelData])
+            BackgroundItem {
+                Label {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        margins: Theme.paddingLarge
+                        verticalCenter: parent.verticalCenter
+                    }
+
+                    text: "Add contact"
+                }
 
                 onClicked: {
-                    var dialog = pageStack.push(dialogComponent, {
-                        activeFilename: values[modelData],
-                        activeSoundTitle: value,
-                        activeSoundSubtitle: "Contact ringtone",
-                        noSound: false
-                        })
+                    var page = pageStack.push(contactSelector)
+                    page.numberSelected.connect(function(selectedNumber) {
+                        var number = selectedNumber
+                        var dialog = pageStack.replace(dialogComponent, {
+                            activeFilename: "",
+                            activeSoundTitle: "no sound",
+                            activeSoundSubtitle: "Contact ringtone",
+                            noSound: false
+                            })
 
-                    dialog.accepted.connect(
-                        function() {
-                            settings.setRingtone(modelData, dialog.selectedFilename)
-                            var temp = values
-                            temp[modelData] = dialog.selectedFilename
-                            values = temp
-                        })
+                        dialog.accepted.connect(
+                            function() {
+                                settings.setRingtone(number, dialog.selectedFilename)
+                                var temp = values
+                                temp[number] = dialog.selectedFilename
+                                values = temp
+                            })
+                    } )
                 }
+            }
 
-                onPressAndHold: {
-                    if (modelData !== "default") {
-                        item.showMenu()
+            SectionHeader { text: "Always silenced numbers" }
+
+            Repeater {
+                model: muted
+                delegate: ListItem {
+                    id: mutedItem
+                    menu: contextMenu
+                    contentHeight: mutedItemContent.height
+                    preventStealing: true
+                    ListView.onRemove: animateRemoval(mutedItem)
+                    function remove() {
+                        var temp = muted
+                        var mindex = temp.indexOf(modelData)
+                        temp.splice(mindex, 1)
+                        settings.setMutedList(temp)
+                        muted = temp
+                    }
+                    ValueButton {
+                        id: mutedItemContent
+                        highlighted: false
+                        property Person person: people.count ? people.personByPhoneNumber(modelData, false) : null
+                        label: person ? person.displayLabel : modelData
+                        description: person ? modelData : ""
+
+                        onPressAndHold: {
+                            mutedItem.showMenu()
+                        }
+                    }
+                    Component {
+                        id: contextMenu
+                        ContextMenu {
+                            MenuItem {
+                                text: "Remove"
+                                onClicked: remove()
+                            }
+                        }
                     }
                 }
             }
-            Component {
-                id: contextMenu
-                ContextMenu {
-                    MenuItem {
-                        text: "Remove"
-                        onClicked: remove()
+
+            BackgroundItem {
+                Label {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        margins: Theme.paddingLarge
+                        verticalCenter: parent.verticalCenter
+                    }
+
+                    text: "Add contact"
+                }
+
+                onClicked: {
+                    var page = pageStack.push(contactSelector)
+                    page.numberSelected.connect(function(selectedNumber) {
+                        var number = selectedNumber
+                        var temp = muted
+                        var mindex = temp.indexOf(number)
+                        if (mindex == -1) {
+                            temp.push(number)
+                            muted = temp
+                            settings.setMutedList(muted)
+                        }
+                        pageStack.pop()
+                    } )
+                }
+            }
+
+            SectionHeader { text: "Always with sound numbers" }
+
+            Repeater {
+                model: normal
+                delegate: ListItem {
+                    id: normalItem
+                    menu: contextMenu
+                    contentHeight: normalItemContent.height
+                    preventStealing: true
+                    ListView.onRemove: animateRemoval(normalItem)
+                    function remove() {
+                        var temp = normal
+                        var nindex = temp.indexOf(modelData)
+                        temp.splice(nindex, 1)
+                        settings.setNormalList(temp)
+                        normal = temp
+                    }
+
+                    ValueButton {
+                        id: normalItemContent
+                        highlighted: false
+                        property Person person: people.count ? people.personByPhoneNumber(modelData, false) : null
+                        label: person ? person.displayLabel : modelData
+                        description: person ? modelData : ""
+
+                        onPressAndHold: {
+                            normalItem.showMenu()
+                        }
+                    }
+                    Component {
+                        id: contextMenu
+                        ContextMenu {
+                            MenuItem {
+                                text: "Remove"
+                                onClicked: remove()
+                            }
+                        }
                     }
                 }
             }
-        }
 
-        footer: BackgroundItem {
-            Label {
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    margins: Theme.paddingLarge
-                    verticalCenter: parent.verticalCenter
+            BackgroundItem {
+                Label {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        margins: Theme.paddingLarge
+                        verticalCenter: parent.verticalCenter
+                    }
+
+                    text: "Add contact"
                 }
 
-                text: "Add contact"
-                font.bold: true
-            }
-
-            onClicked: {
-                var page = pageStack.push(contactSelector)
-                page.numberSelected.connect(function(selectedNumber) {
-                    var number = Person.normalizePhoneNumber(selectedNumber)
-                    var dialog = pageStack.replace(dialogComponent, {
-                        activeFilename: "",
-                        activeSoundTitle: "no sound",
-                        activeSoundSubtitle: "Contact ringtone",
-                        noSound: false
-                        })
-
-                    dialog.accepted.connect(
-                        function() {
-                            settings.setRingtone(number, dialog.selectedFilename)
-                            var temp = values
-                            temp[number] = dialog.selectedFilename
-                            values = temp
-                        })
-                } )
+                onClicked: {
+                    var page = pageStack.push(contactSelector)
+                    page.numberSelected.connect(function(selectedNumber) {
+                        var number = selectedNumber
+                        var temp = normal
+                        var nindex = temp.indexOf(number)
+                        if (nindex == -1) {
+                            temp.push(number)
+                            normal = temp
+                            settings.setNormalList(normal)
+                        }
+                        pageStack.pop()
+                    } )
+                }
             }
         }
     }

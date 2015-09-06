@@ -8,7 +8,7 @@ Name:       personalringtones
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Personal Ringtones
-Version:    0.2.1
+Version:    0.3.0
 Release:    1
 Group:      Qt/Qt
 License:    WTFPL
@@ -23,6 +23,8 @@ BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  pkgconfig(TelepathyQt5)
 BuildRequires:  pkgconfig(dconf)
+BuildRequires:  pkgconfig(Qt5SystemInfo)
+BuildRequires:  pkgconfig(qofono-qt5)
 BuildRequires:  desktop-file-utils
 
 %description

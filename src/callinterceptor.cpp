@@ -36,19 +36,44 @@ void IncomingChannel::channelInvalid(Tp::DBusProxy *,
 void IncomingChannel::channelReady(Tp::PendingOperation *operation)
 {
     _ready = true;
-    if (operation->isValid() && _interceptor->profiled.getProfileName() != "silent") {
+    if (operation->isValid()) {
         QString number = _channel->targetId();
-        qDebug() << number;
-        QString ringtone = _interceptor->settings.value(number, QString()).toString();
-        if (ringtone.isEmpty()) {
-            _interceptor->profiled.setProfileValue("ringing.alert.tone", _interceptor->settings.value("default", QString("/usr/share/sounds/jolla-ringtones/stereo/jolla-ringtone.wav")).toString());
+        qDebug() << "Incoming call:" << number;
+        qDebug() << "Current profile:" << _interceptor->profiled.getProfileName();
+        if (_interceptor->checkIsMuted(number)) {
+            qDebug() << "Number found in muted list";
+            if (_interceptor->profiled.getProfileName() != _interceptor->profiled.getSilenceProfileName()) {
+                qDebug() << "Call should be muted";
+                _interceptor->lastProfile = _interceptor->profiled.getProfileName();
+                _interceptor->needRestoreProfile = true;
+                _interceptor->profiled.setProfileName(_interceptor->profiled.getSilenceProfileName());
+            }
         }
         else {
-            _interceptor->profiled.setProfileValue("ringing.alert.tone", ringtone);
+            if (_interceptor->checkIsNormal(number)) {
+                qDebug() << "Number found in unmuted list";
+                if (_interceptor->profiled.getProfileName() != _interceptor->profiled.getDefaultProfileName()) {
+                    qDebug() << "Call should be unmuted";
+                    _interceptor->lastProfile = _interceptor->profiled.getProfileName();
+                    _interceptor->needRestoreProfile = true;
+                    _interceptor->profiled.setProfileName(_interceptor->profiled.getDefaultProfileName());
+                    _interceptor->profiled.setProfileValue("ringing.alert.volume", "100");
+                }
+            }
+            QString ringtone = _interceptor->settings.value(number, QString()).toString();
+            if (ringtone.isEmpty()) {
+                qDebug() << "Settings default ringtone";
+                _interceptor->profiled.setProfileValue("ringing.alert.tone", _interceptor->settings.value("default", QString("/usr/share/sounds/jolla-ringtones/stereo/jolla-ringtone.wav")).toString());
+            }
+            else {
+                qDebug() << "Settings ringtone:" << ringtone;
+                _interceptor->profiled.setProfileValue("ringing.alert.tone", ringtone);
+            }
         }
     }
 
-    QTimer::singleShot(500, this, SLOT(delayedReady())); // to load ngfd tone
+    QTimer::singleShot(1000, this, SLOT(delayedReady())); // to load ngfd tone
+    //QTimer::singleShot()
 }
 
 void IncomingChannel::finish()
@@ -188,10 +213,6 @@ void InterceptClient::observeChannels(const Tp::MethodInvocationContextPtr<> &co
                                       const QList<Tp::ChannelRequestPtr> &,
                                       const ObserverInfo &)
 {
-    foreach (const Tp::ChannelPtr& ptr, channels) {
-        qDebug() << ptr->targetId();
-    }
-
     if (!dispatchOperation.isNull() && !dispatchOperation->isValid())
     {
         // outgoing call
@@ -218,25 +239,96 @@ InterceptClient::InterceptClient(CallInterceptor *interceptor) :
 
 CallInterceptor::CallInterceptor(QObject *parent) :
     QObject(parent),
-    _failed(false)
+    _failed(false),
+    needRestoreProfile(false),
+    lastProfile("general")
 {
     init();
 }
 
 void CallInterceptor::init()
 {
-    _registrar = Tp::ClientRegistrar::create();
-    _client = InterceptClient::create(this);
-    _registrar->registerClient(Tp::AbstractClientPtr::dynamicCast(_client), "PersonalRingtones", true);
-    qDebug() << "Telepathy client registered";
-
-    QString def = settings.value("default", QString()).toString();
-    if (def.isEmpty()) {
-        settings.setValue("default", profiled.getProfileValue("ringing.alert.tone", "/usr/share/sounds/jolla-ringtones/stereo/jolla-ringtone.wav"));
+    bool service = QDBusConnection::sessionBus().registerService("org.coderus.personalringtones");
+    qDebug() << "DBus service" << (service ? "registered" : "error!");
+    if (service) {
+        bool object = QDBusConnection::sessionBus().registerObject("/", this, QDBusConnection::ExportScriptableContents);
+        qDebug() << "DBus object" << (object ? "registered" : "error!");
+        if (!object) {
+            _failed = true;
+        }
+    }
+    else {
+        _failed = true;
     }
 
-    qDebug() << "DBus service" << (QDBusConnection::sessionBus().registerService("org.coderus.personalringtones") ? "registered" : "error!");
-    qDebug() << "DBus object" << (QDBusConnection::sessionBus().registerObject("/", this, QDBusConnection::ExportScriptableContents) ? "registered" : "error!");
+    if (!_failed) {
+        _registrar = Tp::ClientRegistrar::create();
+        _client = InterceptClient::create(this);
+        _registrar->registerClient(Tp::AbstractClientPtr::dynamicCast(_client), "PersonalRingtones", true);
+        qDebug() << "Telepathy client registered";
+
+        QString def = settings.value("default", QString()).toString();
+        if (def.isEmpty()) {
+            settings.setValue("default", profiled.getProfileValue("ringing.alert.tone", "/usr/share/sounds/jolla-ringtones/stereo/jolla-ringtone.wav"));
+        }
+
+        lastProfile = profiled.getProfileName();
+
+        ofonoManager = new QOfonoManager(this);
+        QStringList modems = ofonoManager->modems();
+
+        if (modems.length() == 0)
+        {
+            qWarning() << QLatin1String("No modems available! Waiting for modemAdded");
+
+            connect(ofonoManager, &QOfonoManager::modemAdded,
+                    this, &CallInterceptor::initVoiceCallManager);
+        }
+        else {
+            initVoiceCallManager(modems.first());
+        }
+    }
+}
+
+void CallInterceptor::initVoiceCallManager(const QString &objectPath)
+{
+    qDebug() << objectPath;
+
+    ofonoVoicecallManager = new QOfonoVoiceCallManager();
+
+    ofonoVoicecallManager->setModemPath(objectPath);
+
+    connect(ofonoVoicecallManager, SIGNAL(callAdded(QString)),
+            this, SLOT(onVoiceCallAdded(QString)));
+
+    ofonoManager->deleteLater();
+}
+
+void CallInterceptor::onVoiceCallAdded(const QString &objectPath)
+{
+    qDebug() << objectPath;
+
+    QOfonoVoiceCall *voiceCall = new QOfonoVoiceCall(this);
+    voiceCall->setVoiceCallPath(objectPath);
+
+    connect(voiceCall, &QOfonoVoiceCall::stateChanged,
+            this, &CallInterceptor::processOfonoState);
+}
+
+void CallInterceptor::processOfonoState(const QString &state)
+{
+    qDebug() << state;
+    QOfonoVoiceCall *voiceCall = qobject_cast<QOfonoVoiceCall*>(sender());
+    if (voiceCall && (state == "active" || state == "disconnected")) {
+        QString number = voiceCall->lineIdentification();
+        qDebug() << "Call action for:" << number;
+        if (needRestoreProfile) {
+            qDebug() << "Settings previous profile back";
+            profiled.setProfileName(lastProfile);
+            needRestoreProfile = false;
+        }
+        voiceCall->deleteLater();
+    }
 }
 
 bool CallInterceptor::isValid()
@@ -267,4 +359,34 @@ void CallInterceptor::removeRingtone(const QString &number)
 QString CallInterceptor::getVersion() const
 {
     return settings.getVersion();
+}
+
+void CallInterceptor::setMutedList(const QString &muted)
+{
+    settings.setMutedList(muted);
+}
+
+QStringList CallInterceptor::getMutedList() const
+{
+    return settings.getMutedList();
+}
+
+bool CallInterceptor::checkIsMuted(const QString &number)
+{
+    return settings.getMutedList().contains(number);
+}
+
+void CallInterceptor::setNormalList(const QString &normal)
+{
+    settings.setNormalList(normal);
+}
+
+QStringList CallInterceptor::getNormalList() const
+{
+    return settings.getNormalList();
+}
+
+bool CallInterceptor::checkIsNormal(const QString &number)
+{
+    return settings.getNormalList().contains(number);
 }

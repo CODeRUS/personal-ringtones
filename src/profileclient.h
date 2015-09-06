@@ -22,7 +22,10 @@ class ProfileClient : public QObject
 public:
     explicit ProfileClient(QObject *parent = 0);
 
+    QString getSilenceProfileName() const;
+    QString getDefaultProfileName() const;
     QString getProfileName() const;
+    bool setProfileName(const QString &name);
     QVariant getProfileValue(const QString &key, const QVariant &def) const;
     bool setProfileValue(const QString &key, const QVariant &value);
 
@@ -32,6 +35,8 @@ private slots:
 private:
     QDBusInterface *profiled;
     QString profileName;
+    QString defaultProfileName;
+    QString silenceProfileName;
 
 };
 

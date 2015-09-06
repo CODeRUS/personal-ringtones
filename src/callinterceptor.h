@@ -6,6 +6,10 @@
 #include <TelepathyQt/AbstractClientObserver>
 #include <TelepathyQt/ClientRegistrar>
 
+#include <qofono-qt5/qofonomanager.h>
+#include <qofono-qt5/qofonovoicecallmanager.h>
+#include <qofono-qt5/qofonovoicecall.h>
+
 #include "profileclient.h"
 #include "settings.h"
 
@@ -106,19 +110,36 @@ public:
 
     ProfileClient profiled;
     Settings settings;
+    QString lastProfile;
+    bool needRestoreProfile;
 
     Q_SCRIPTABLE QVariantMap getItems() const;
     Q_SCRIPTABLE QString getRingtone(const QString &number) const;
     Q_SCRIPTABLE void setRingtone(const QString &number, const QString &value);
     Q_SCRIPTABLE void removeRingtone(const QString &number);
     Q_SCRIPTABLE QString getVersion() const;
+    Q_SCRIPTABLE void setMutedList(const QString &muted);
+    Q_SCRIPTABLE QStringList getMutedList() const;
+    bool checkIsMuted(const QString &number);
+    Q_SCRIPTABLE void setNormalList(const QString &normal);
+    Q_SCRIPTABLE QStringList getNormalList() const;
+    bool checkIsNormal(const QString &number);
 
 private:
     bool _failed;
     Tp::ClientRegistrarPtr _registrar;
     InterceptClientPtr _client;
 
+    QOfonoManager *ofonoManager;
+    QOfonoVoiceCallManager *ofonoVoicecallManager;
+
     void init();
+
+private slots:
+    void initVoiceCallManager(const QString& objectPath);
+    void onVoiceCallAdded(const QString& objectPath);
+
+    void processOfonoState(const QString &state);
 };
 
 #endif // CALLINTERCEPTOR_H

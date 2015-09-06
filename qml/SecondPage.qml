@@ -94,7 +94,7 @@ Page {
             }
 
             Label {
-                text: "Simple proof-of-concept hacky-tricky application for customizing ringtones per contact"
+                text: "Simple proof-of-concept hacky-tricky application for customizing ringtones per contact."
                 font.pixelSize: Theme.fontSizeMedium
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
@@ -102,7 +102,7 @@ Page {
             }
 
             Label {
-                text: "Application replaces system ringtones settings functions, after installation you can only manage ringtones in this application"
+                text: "Application replaces system ringtones settings functions, after installation you can only manage ringtones in this application."
                 font.pixelSize: Theme.fontSizeMedium
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
@@ -110,7 +110,15 @@ Page {
             }
 
             Label {
-                text: "written by coderus in 0x7DF\nis dedicated to my beloved"
+                text: "Application only stores numbers associated with ringtones, so it should exact match to detected number, received from system. Please check terminal output of \"personalringtones\" output if you have any problems with adding correct number."
+                font.pixelSize: Theme.fontSizeMedium
+                width: parent.width
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WordWrap
+            }
+
+            Label {
+                text: "written by coderus in 0x7DF\nis dedicated to my beloved."
                 font.pixelSize: Theme.fontSizeMedium
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
