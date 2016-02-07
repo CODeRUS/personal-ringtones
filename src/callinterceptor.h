@@ -125,6 +125,9 @@ public:
     Q_SCRIPTABLE QStringList getNormalList() const;
     bool checkIsNormal(const QString &number);
 
+public slots:
+    void init();
+
 private:
     bool _failed;
     Tp::ClientRegistrarPtr _registrar;
@@ -133,9 +136,8 @@ private:
     QOfonoManager *ofonoManager;
     QOfonoVoiceCallManager *ofonoVoicecallManager;
 
-    void init();
-
 private slots:
+    void onOfonoAvailableChanged(bool available);
     void initVoiceCallManager(const QString& objectPath);
     void onVoiceCallAdded(const QString& objectPath);
 

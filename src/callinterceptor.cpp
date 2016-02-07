@@ -5,6 +5,9 @@
 #include <TelepathyQt/StreamedMediaChannel>
 #include <TelepathyQt/PendingReady>
 
+#include <TelepathyQt/Debug>
+#include <TelepathyQt/Types>
+
 #include <QTimer>
 
 #include "callinterceptor.h"
@@ -73,7 +76,6 @@ void IncomingChannel::channelReady(Tp::PendingOperation *operation)
     }
 
     QTimer::singleShot(1000, this, SLOT(delayedReady())); // to load ngfd tone
-    //QTimer::singleShot()
 }
 
 void IncomingChannel::finish()
@@ -243,11 +245,15 @@ CallInterceptor::CallInterceptor(QObject *parent) :
     needRestoreProfile(false),
     lastProfile("general")
 {
-    init();
+    //init();
 }
 
 void CallInterceptor::init()
 {
+    Tp::registerTypes();
+    //Tp::enableDebug(true);
+    Tp::enableWarnings(true);
+
     bool service = QDBusConnection::sessionBus().registerService("org.coderus.personalringtones");
     qDebug() << "DBus service" << (service ? "registered" : "error!");
     if (service) {
@@ -279,14 +285,24 @@ void CallInterceptor::init()
 
         if (modems.length() == 0)
         {
-            qWarning() << QLatin1String("No modems available! Waiting for modemAdded");
+            qWarning() << QLatin1String("No modems available! Waiting for availableChanged");
 
-            connect(ofonoManager, &QOfonoManager::modemAdded,
-                    this, &CallInterceptor::initVoiceCallManager);
+            connect(ofonoManager, &QOfonoManager::availableChanged,
+                    this, &CallInterceptor::onOfonoAvailableChanged);
         }
         else {
             initVoiceCallManager(modems.first());
         }
+    }
+    else {
+        qApp->exit(0);
+    }
+}
+
+void CallInterceptor::onOfonoAvailableChanged(bool available)
+{
+    if (available && ofonoManager->modems().length() > 0) {
+        initVoiceCallManager(ofonoManager->modems().first());
     }
 }
 

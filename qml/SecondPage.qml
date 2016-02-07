@@ -110,7 +110,7 @@ Page {
             }
 
             Label {
-                text: "Application only stores numbers associated with ringtones, so it should exact match to detected number, received from system. Please check terminal output of \"personalringtones\" output if you have any problems with adding correct number."
+                text: "Application only stores numbers associated with ringtones, so it should exact match to detected number, received from system. Please check terminal output of \"personalringtones\" application if you have any problems with adding correct number."
                 font.pixelSize: Theme.fontSizeMedium
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
@@ -253,7 +253,7 @@ Page {
             }
 
             Label {
-                text: "Big thanks Ove Kåven for ScumStopper source code."
+                text: "Big thanks Ove Kåven for ScumStopper source code and Dmitriy Purgin for Call Recorder source code."
                 font.pixelSize: Theme.fontSizeMedium
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter

@@ -1,27 +1,17 @@
 #include <QCoreApplication>
 #include <QScopedPointer>
-
-#include <TelepathyQt/Debug>
-#include <TelepathyQt/Types>
-
-#include <QtDBus>
+#include <QTimer>
 
 #include "callinterceptor.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
-    Tp::registerTypes();
-    //Tp::enableDebug(true);
-    Tp::enableWarnings(true);
+    QScopedPointer<QCoreApplication> app(new QCoreApplication(argc, argv));
+    app->setApplicationName("PersonalRngtones");
+    app->setApplicationVersion(QString(APP_VERSION));
 
     QScopedPointer<CallInterceptor> interceptor(new CallInterceptor(0));
-    if (!interceptor->isValid()) {
-        return 1;
-    }
-
-    QScopedPointer<QCoreApplication> app(new QCoreApplication(argc, argv));
-    app->setApplicationName("PersonalRingtones");
-    app->setApplicationVersion(QString(APP_VERSION));
+    QTimer::singleShot(1, interceptor.data(), SLOT(init()));
 
     return app->exec();
 }
