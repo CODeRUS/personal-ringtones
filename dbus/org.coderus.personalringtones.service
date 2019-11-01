@@ -1,4 +1,0 @@
-[D-BUS Service]
-Name=org.coderus.personalringtones
-Exec=/usr/bin/invoker -s --type=qt5 /usr/bin/personalringtones
-SystemdService=personalringtones.service

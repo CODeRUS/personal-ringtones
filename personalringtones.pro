@@ -1,46 +1,32 @@
 TARGET = personalringtones
-target.path = /usr/bin
 
-QT += dbus
-CONFIG += link_pkgconfig qt-boostable
-PKGCONFIG += TelepathyQt5 dconf Qt5SystemInfo qofono-qt5
-
-INCLUDEPATH += /usr/include/telepathy-qt5
-
-DEFINES += APP_VERSION=\\\"$$VERSION\\\"
-
-dbus.files = dbus/org.coderus.personalringtones.service
-dbus.path = /usr/share/dbus-1/services
-
-systemd.files = systemd/personalringtones.service
-systemd.path = /usr/lib/systemd/user
-
-pages.files = settings/personalringtones.json
-pages.path = /usr/share/jolla-settings/entries
-
-qml.files = qml
-qml.path = /usr/share/personalringtones
-
-icons.files = icons
-icons.path = /usr/share/personalringtones
-
-INSTALLS += target dbus systemd pages qml icons
+CONFIG += sailfishapp
 
 SOURCES += \
-    src/main.cpp \
-    src/callinterceptor.cpp \
-    src/profileclient.cpp \
-    src/mdconf.cpp \
-    src/mdconfagent.cpp \
-    src/settings.cpp
+    src/personalringtones.cpp
 
-HEADERS += \
-    src/callinterceptor.h \
-    src/profileclient.h \
-    src/profile_dbus.h \
-    src/mdconf_p.h \
-    src/mdconfagent.h \
-    src/settings.h
+DISTFILES += \
+    rpm/personalringtones.spec \
+    translations/*.ts \
+    personalringtones.desktop \
+    qml/personalringtones.qml \
+    qml/cover/CoverPage.qml \
+    qml/pages/FirstPage.qml \
+    qml/pages/SecondPage.qml
 
-OTHER_FILES += \
-    rpm/personalringtones.spec
+SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
+
+CONFIG += sailfishapp_i18n
+TRANSLATIONS += translations/personalringtones-ru.ts
+
+privileges.files = personalringtones.privileges
+privileges.path = /usr/share/mapplauncherd/privileges.d/
+INSTALLS += privileges
+
+libs.files = lib/*.so
+libs.path = /usr/lib/voicecall/plugins
+INSTALLS += libs
+
+ngfd.files = ngfd/personal_ringtone.ini
+ngfd.path = /usr/share/ngfd/events.d
+INSTALLS += ngfd
