@@ -44,6 +44,7 @@ Page {
             ValueButton {
                 label: qsTr("Select folder for random ringtone")
                 value: config.randomPath
+                enabled: randomSwitch.checked
                 onClicked: {
                     var picker = pageStack.push("Sailfish.Pickers.FilePickerPage")
                     picker.selectedContentPropertiesChanged.connect(function() {
