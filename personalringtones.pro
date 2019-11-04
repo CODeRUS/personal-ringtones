@@ -11,8 +11,11 @@ DISTFILES += \
     personalringtones.desktop \
     qml/personalringtones.qml \
     qml/cover/CoverPage.qml \
-    qml/pages/FirstPage.qml \
-    qml/pages/SecondPage.qml
+    qml/pages/MainPage.qml \
+    qml/pages/AboutPage.qml \
+    qml/pages/RandomRingtone.qml \
+    qml/pages/ImportantContacts.qml \
+    qml/pages/PersonalRingtones.qml
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 
@@ -27,6 +30,8 @@ libs.files = lib/*.so
 libs.path = /usr/lib/voicecall/plugins
 INSTALLS += libs
 
-ngfd.files = ngfd/personal_ringtone.ini
+ngfd.files = \
+    ngfd/personal_ringtone.ini \
+    ngfd/important_ringtone.ini
 ngfd.path = /usr/share/ngfd/events.d
 INSTALLS += ngfd

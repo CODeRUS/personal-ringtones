@@ -4,9 +4,17 @@
 <context>
     <name></name>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="19"/>
+        <location filename="../qml/pages/MainPage.qml" line="9"/>
         <source>Personal Ringtones</source>
         <translation>Мелодия контактов</translation>
+    </message>
+</context>
+<context>
+    <name>AboutPage</name>
+    <message>
+        <location filename="../qml/pages/AboutPage.qml" line="11"/>
+        <source>About</source>
+        <translation type="unfinished">О программе</translation>
     </message>
 </context>
 <context>
@@ -18,49 +26,110 @@
     </message>
 </context>
 <context>
-    <name>FirstPage</name>
+    <name>ImportantContacts</name>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="33"/>
-        <source>About</source>
-        <translation>О программе</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/FirstPage.qml" line="38"/>
+        <location filename="../qml/pages/ImportantContacts.qml" line="26"/>
         <source>Add contact</source>
-        <translation>Добавить контакт</translation>
+        <translation type="unfinished">Добавить контакт</translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="63"/>
-        <source>Personal Ringtones</source>
-        <translation>Мелодия контактов</translation>
+        <location filename="../qml/pages/ImportantContacts.qml" line="41"/>
+        <source>Important contacts</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="121"/>
-        <source>Deleting</source>
-        <translation>Удаление</translation>
+        <location filename="../qml/pages/ImportantContacts.qml" line="100"/>
+        <source>Pull down to add important contacts, which will ring always</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="131"/>
+        <location filename="../qml/pages/ImportantContacts.qml" line="87"/>
         <source>Remove</source>
-        <translation>Удалить</translation>
+        <translation type="unfinished">Удалить</translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="149"/>
+        <location filename="../qml/pages/ImportantContacts.qml" line="99"/>
         <source>No contacts yet</source>
-        <translation>Не добавлено ни одного контакта</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/FirstPage.qml" line="150"/>
-        <source>Pull down to add contacts</source>
-        <translation>Потяните вниз, чтобы добавить контакт</translation>
+        <translation type="unfinished">Не добавлено ни одного контакта</translation>
     </message>
 </context>
 <context>
-    <name>SecondPage</name>
+    <name>MainPage</name>
     <message>
-        <location filename="../qml/pages/SecondPage.qml" line="10"/>
+        <location filename="../qml/pages/MainPage.qml" line="22"/>
+        <source>Personal Ringtones</source>
+        <translation type="unfinished">Мелодия контактов</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="28"/>
+        <source>Choose personal ringtones</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="32"/>
+        <source>Choose important contacts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="36"/>
+        <source>Set random ringtone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="40"/>
         <source>About</source>
-        <translation>О программе</translation>
+        <translation type="unfinished">О программе</translation>
+    </message>
+</context>
+<context>
+    <name>PersonalRingtones</name>
+    <message>
+        <location filename="../qml/pages/PersonalRingtones.qml" line="29"/>
+        <source>Add contact</source>
+        <translation type="unfinished">Добавить контакт</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/PersonalRingtones.qml" line="54"/>
+        <source>Personal ringtones</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/PersonalRingtones.qml" line="138"/>
+        <source>Remove</source>
+        <translation type="unfinished">Удалить</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/PersonalRingtones.qml" line="156"/>
+        <source>No contacts yet</source>
+        <translation type="unfinished">Не добавлено ни одного контакта</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/PersonalRingtones.qml" line="157"/>
+        <source>Pull down to add contacts</source>
+        <translation type="unfinished">Потяните вниз, чтобы добавить контакт</translation>
+    </message>
+</context>
+<context>
+    <name>RandomRingtone</name>
+    <message>
+        <location filename="../qml/pages/RandomRingtone.qml" line="20"/>
+        <source>Random ringtones</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/RandomRingtone.qml" line="25"/>
+        <source>Use random ringtone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/RandomRingtone.qml" line="39"/>
+        <source>Random ringtone will be played for all non-personalized contacts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/RandomRingtone.qml" line="45"/>
+        <source>Select folder for random ringtone</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

@@ -1,7 +1,7 @@
 Name:       personalringtones
 
 Summary:    Personal ringtones
-Version:    1.0.0
+Version:    1.0.1
 Release:    1
 Group:      Qt/Qt
 License:    WTFPL
@@ -13,6 +13,8 @@ BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  desktop-file-utils
+
+BuildRequires:  sailfish-components-pickers-qt5
 
 %description
 Application for assigning personal ringtones
@@ -31,15 +33,17 @@ make %{?_smp_mflags}
 rm -rf %{buildroot}
 %qmake5_install
 
-desktop-file-install --delete-original       \
-  --dir %{buildroot}%{_datadir}/applications             \
+desktop-file-install --delete-original \
+  --dir %{buildroot}%{_datadir}/applications \
    %{buildroot}%{_datadir}/applications/*.desktop
 
 %post
+systemctl-user restart voicecall-manager.service || :
 systemctl-user restart ngfd.service || :
 
 %postun
 systemctl-user restart ngfd.service || :
+systemctl-user restart voicecall-manager.service || :
 
 %files
 %defattr(-,root,root,-)

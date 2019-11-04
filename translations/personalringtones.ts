@@ -9,6 +9,13 @@
     </message>
 </context>
 <context>
+    <name>AboutPage</name>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
         <source>Personal Ringtones</source>
@@ -16,17 +23,55 @@
     </message>
 </context>
 <context>
-    <name>FirstPage</name>
+    <name>ImportantContacts</name>
     <message>
         <source>Add contact</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Important contacts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No contacts yet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pull down to add important contacts, which will ring always</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MainPage</name>
+    <message>
         <source>Personal Ringtones</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Deleting</source>
+        <source>Choose personal ringtones</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set random ringtone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose important contacts</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PersonalRingtones</name>
+    <message>
+        <source>Add contact</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -42,14 +87,26 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>About</source>
+        <source>Personal ringtones</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>SecondPage</name>
+    <name>RandomRingtone</name>
     <message>
-        <source>About</source>
+        <source>Random ringtones</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use random ringtone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select folder for random ringtone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Random ringtone will be played for all non-personalized contacts</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -15,10 +15,6 @@ Page {
 
     property string tempTone
 
-    function _() {
-        QT_TRANSLATE_NOOP("", "Personal Ringtones")
-    }
-
     Component.onCompleted: {
         listModel.load()
     }
@@ -29,11 +25,6 @@ Page {
         model: listModel
 
         PullDownMenu {
-            MenuItem {
-                text: qsTr("About")
-                onClicked: pageStack.push(Qt.resolvedUrl("SecondPage.qml"))
-            }
-
             MenuItem {
                 text: qsTr("Add contact")
                 onClicked: {
@@ -60,7 +51,7 @@ Page {
         }
 
         header: PageHeader {
-            title: qsTr("Personal Ringtones")
+            title: qsTr("Personal ringtones")
         }
 
         delegate: Component {
@@ -76,6 +67,21 @@ Page {
                         mediaLabel.media = tempTone
                         tempTone = ''
                     }
+                }
+
+                onClicked: {
+                    var dialog = pageStack.push("com.jolla.settings.system.SoundDialog", {
+                        activeFilename: mediaLabel.isMuted ? '' : mediaLabel.media,
+                        activeSoundTitle: mediaLabel.isMuted ? 'no sound' : mediaLabel.text,
+                        activeSoundSubtitle: "Contact ringtone",
+                        noSound: mediaLabel.isMuted
+                        })
+
+                    dialog.accepted.connect(
+                        function() {
+                            var tone = dialog.selectedFilename || "muted"
+                            mediaConfig.value = tone
+                        })
                 }
 
                 Column {
@@ -109,16 +115,17 @@ Page {
                     Label {
                         id: mediaLabel
                         property alias media: mediaConfig.value
+                        property bool isMuted: media == 'muted'
                         width: parent.width
                         truncationMode: TruncationMode.Fade
-                        text: (media == 'muted' || media == '') ? media : metadataReader.getTitle(media)
+                        text: (isMuted || media == '') ? media : metadataReader.getTitle(media)
                         font.pixelSize: Theme.fontSizeSmall
                         color: listItem.highlighted ? Theme.secondaryHighlightColor : Theme.secondaryColor
                     }
                 }
 
                 function remove(number) {
-                    remorseAction(qsTr("Deleting"), function() {
+                    remorseAction(qsTr("Deleting %1 (%2)".arg(label.text).arg(labelNumber.text)), function() {
                         mediaConfig.value = ''
                         listModel.removeNumber(number)
                     })
