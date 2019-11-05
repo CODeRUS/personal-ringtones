@@ -66,17 +66,17 @@
         <translation>Выбор мелодий для контактов</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="32"/>
+        <location filename="../qml/pages/MainPage.qml" line="33"/>
         <source>Choose important contacts</source>
         <translation>Выбор важных контактов</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="36"/>
+        <location filename="../qml/pages/MainPage.qml" line="38"/>
         <source>Set random ringtone</source>
         <translation>Папка со случайными мелодиями</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="40"/>
+        <location filename="../qml/pages/MainPage.qml" line="43"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
@@ -84,27 +84,52 @@
 <context>
     <name>PersonalRingtones</name>
     <message>
-        <location filename="../qml/pages/PersonalRingtones.qml" line="29"/>
+        <location filename="../qml/pages/PersonalRingtones.qml" line="30"/>
+        <source>Show settings</source>
+        <translation>Показать настройки</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/PersonalRingtones.qml" line="30"/>
+        <source>Hide settings</source>
+        <translation>Скрыть настройки</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/PersonalRingtones.qml" line="34"/>
         <source>Add contact</source>
         <translation>Добавить контакт</translation>
     </message>
     <message>
-        <location filename="../qml/pages/PersonalRingtones.qml" line="54"/>
+        <location filename="../qml/pages/PersonalRingtones.qml" line="66"/>
         <source>Personal ringtones</source>
         <translation>Мелодия контактов</translation>
     </message>
     <message>
-        <location filename="../qml/pages/PersonalRingtones.qml" line="138"/>
+        <location filename="../qml/pages/PersonalRingtones.qml" line="77"/>
+        <source>Match numbers by right digits</source>
+        <translation>Проверять совпадение последних цифр</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/PersonalRingtones.qml" line="78"/>
+        <source>%1 digits</source>
+        <translation>%1 последние цифры</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/PersonalRingtones.qml" line="78"/>
+        <source>Full match</source>
+        <translation>Полное совпадение</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/PersonalRingtones.qml" line="170"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../qml/pages/PersonalRingtones.qml" line="156"/>
+        <location filename="../qml/pages/PersonalRingtones.qml" line="188"/>
         <source>No contacts yet</source>
         <translation>Не добавлено ни одного контакта</translation>
     </message>
     <message>
-        <location filename="../qml/pages/PersonalRingtones.qml" line="157"/>
+        <location filename="../qml/pages/PersonalRingtones.qml" line="189"/>
         <source>Pull down to add contacts</source>
         <translation>Потяните вниз, чтобы добавить контакт</translation>
     </message>
