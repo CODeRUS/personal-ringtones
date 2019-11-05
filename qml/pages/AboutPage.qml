@@ -11,6 +11,33 @@ Page {
         title: qsTr("About")
     }
 
+    Item {
+        anchors.top: header.bottom
+        width: parent.width
+        height: aboutArea.rotationHeight
+        Behavior on height {
+            NumberAnimation {
+                duration: 800
+                easing.type: Easing.OutExpo
+            }
+        }
+
+        clip: true
+
+        Column {
+            width: parent.width
+
+            Image {
+                source: "personal-magic.svg"
+                sourceSize.width: width
+                sourceSize.height: width
+                width: Theme.itemSizeHuge
+                height: width
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+        }
+    }
+
     MouseArea {
         id: aboutArea
         y: header.height
@@ -55,8 +82,8 @@ Page {
                 property: "angle"
                 from: 0
                 to: 180
-                duration: 1000
-                easing.type: Easing.OutBounce
+                duration: 2000
+                easing.type: Easing.OutElastic
                 running: true
             }
         }

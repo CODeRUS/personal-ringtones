@@ -27,18 +27,22 @@ Page {
                     ListElement {
                         pageTitle: qsTr("Choose personal ringtones")
                         pageName: "PersonalRingtones.qml"
+                        iconName: "image://theme/icon-m-contact"
                     }
                     ListElement {
                         pageTitle: qsTr("Choose important contacts")
                         pageName: "ImportantContacts.qml"
+                        iconName: "image://theme/icon-m-favorite"
                     }
                     ListElement {
                         pageTitle: qsTr("Set random ringtone")
                         pageName: "RandomRingtone.qml"
+                        iconName: "image://theme/icon-m-shuffle"
                     }
                     ListElement {
                         pageTitle: qsTr("About")
                         pageName: "AboutPage.qml"
+                        iconName: "image://theme/icon-m-about"
                     }
                 }
                 delegate: menuItem
@@ -50,10 +54,20 @@ Page {
         id: menuItem
         BackgroundItem {
             contentHeight: Theme.itemSizeMedium
-            Label {
+
+            HighlightImage {
+                id: icon
                 anchors.left: parent.left
+                anchors.leftMargin: Theme.horizontalPageMargin
+                anchors.verticalCenter: parent.verticalCenter
+                source: iconName
+            }
+
+            Label {
+                anchors.left: icon.right
+                anchors.leftMargin: Theme.paddingMedium
                 anchors.right: parent.right
-                anchors.margins: Theme.horizontalPageMargin
+                anchors.rightMargin: Theme.horizontalPageMargin
                 anchors.verticalCenter: parent.verticalCenter
                 truncationMode: TruncationMode.Fade
                 text: pageTitle
