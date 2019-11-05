@@ -35,3 +35,28 @@ ngfd.files = \
     ngfd/important_ringtone.ini
 ngfd.path = /usr/share/ngfd/events.d
 INSTALLS += ngfd
+
+THEMENAME=sailfish-default
+CONFIG += sailfish-svg2png
+
+appicon.sizes = \
+    86 \
+    108 \
+    128 \
+    256
+
+for(iconsize, appicon.sizes) {
+    profile = $${iconsize}x$${iconsize}
+    system(mkdir -p $${OUT_PWD}/$${profile})
+
+    appicon.commands += /usr/bin/sailfish_svg2png \
+        -s 1 1 1 1 1 1 $${iconsize} \
+        $${_PRO_FILE_PWD_}/appicon \
+        $${profile}/apps/ &&
+
+    appicon.files += $${profile}
+}
+appicon.commands += true
+appicon.path = /usr/share/icons/hicolor/
+
+INSTALLS += appicon
