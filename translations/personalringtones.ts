@@ -87,7 +87,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Show settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Personal ringtones</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 digits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Full match</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Match numbers by right digits</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
