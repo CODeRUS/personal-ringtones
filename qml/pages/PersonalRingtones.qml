@@ -12,6 +12,7 @@ Page {
     allowedOrientations: Orientation.All
 
     property bool loading: true
+    property bool settingsMode: false
 
     property string tempTone
 
@@ -25,6 +26,10 @@ Page {
         model: listModel
 
         PullDownMenu {
+            MenuItem {
+                text: settingsMode ? qsTr("Hide settings") : qsTr("Show settings")
+                onClicked: settingsMode = !settingsMode
+            }
             MenuItem {
                 text: qsTr("Add contact")
                 onClicked: {
@@ -50,8 +55,35 @@ Page {
             }
         }
 
-        header: PageHeader {
-            title: qsTr("Personal ringtones")
+        header: Loader {
+            sourceComponent: settingsMode ? settingsHeader : basicHeader
+            width: parent.width
+        }
+
+        Component {
+            id: basicHeader
+            PageHeader {
+                title: qsTr("Personal ringtones")
+            }
+        }
+
+        Component {
+            id: settingsHeader
+            Slider {
+                minimumValue: 0
+                maximumValue: 10
+                stepSize: 1
+                value: matchConfig.value
+                label: qsTr("Match numbers by right digits")
+                valueText: value > 0 ? qsTr("%1 digits").arg(value) : qsTr("Full match")
+                onReleased: matchConfig.value = parseInt(value)
+            }
+        }
+
+        ConfigurationValue {
+            id: matchConfig
+            key: "/apps/personal-ringtones/match"
+            defaultValue: 0
         }
 
         delegate: Component {
