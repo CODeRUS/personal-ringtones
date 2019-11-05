@@ -1,7 +1,7 @@
 Name:       personalringtones
 
 Summary:    Personal ringtones
-Version:    1.1.0
+Version:    1.2.0
 Release:    1
 Group:      Qt/Qt
 License:    WTFPL
