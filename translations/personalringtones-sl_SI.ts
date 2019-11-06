@@ -86,11 +86,11 @@
     </message>
     <message>
         <source>Show settings</source>
-        <translation type="unfinished"/>
+        <translation>Prikaži nastavitve</translation>
     </message>
     <message>
         <source>Hide settings</source>
-        <translation type="unfinished"/>
+        <translation>Skrij nastavitve</translation>
     </message>
     <message>
         <source>Personal ringtones</source>
@@ -98,15 +98,15 @@
     </message>
     <message>
         <source>%1 digits</source>
-        <translation type="unfinished"/>
+        <translation>%1 številk</translation>
     </message>
     <message>
         <source>Full match</source>
-        <translation type="unfinished"/>
+        <translation>Popolno ujemanje</translation>
     </message>
     <message>
         <source>Match numbers by right digits</source>
-        <translation type="unfinished"/>
+        <translation>Potrebno število številk za ujemanje</translation>
     </message>
 </context>
 <context>

@@ -1,131 +1,131 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="de" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ja" version="2.1">
 <context>
     <name/>
     <message>
         <source>Personal Ringtones</source>
-        <translation>Eigene Klingeltöne</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>AboutPage</name>
     <message>
         <source>About</source>
-        <translation>Über</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
         <source>Personal Ringtones</source>
-        <translation>Eigene Klingeltöne</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ImportantContacts</name>
     <message>
         <source>Add contact</source>
-        <translation>Kontakt hinzufügen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Important contacts</source>
-        <translation>Kontakte importieren</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Entfernen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>No contacts yet</source>
-        <translation>Bisher keine Kontakte</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Pull down to add important contacts, which will ring always</source>
-        <translation>Pulley ziehen um Kontakte die immer klingeln sollen hinzuzufügen</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MainPage</name>
     <message>
         <source>Personal Ringtones</source>
-        <translation>Eigene Klingeltöne</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Choose personal ringtones</source>
-        <translation>Wähle eigene Klingeltöne</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>About</source>
-        <translation>Über</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Set random ringtone</source>
-        <translation>Zufälligen Klingelton setzen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Choose important contacts</source>
-        <translation>Wichtige Kontakte auswählen</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>PersonalRingtones</name>
     <message>
         <source>Add contact</source>
-        <translation>Kontakt hinzufügen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Entfernen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>No contacts yet</source>
-        <translation>Keine Kontakte vorhanden</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Pull down to add contacts</source>
-        <translation>Pulley ziehen um Kontakte hinzuzufügen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Show settings</source>
-        <translation>Einstellungen zeigen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Hide settings</source>
-        <translation>Einstellungen verbergen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Personal ringtones</source>
-        <translation>Eigene Klingeltöne</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>%1 digits</source>
-        <translation>%1 Ziffern</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Full match</source>
-        <translation>Volle Übereinstimmung</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Match numbers by right digits</source>
-        <translation>Nummer auf Ziffern abgleichen</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>RandomRingtone</name>
     <message>
         <source>Random ringtones</source>
-        <translation>Zufälliger Klingelton</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Use random ringtone</source>
-        <translation>Benutze zufälligen Klingelton</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select folder for random ringtone</source>
-        <translation>Wähle ein Verzeichnis für die zufälligen Klingeltöne</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Random ringtone will be played for all non-personalized contacts</source>
-        <translation>Zufällige Klingeltöne werden für alle nicht personalisierten Kontakte genutzt</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

@@ -86,11 +86,11 @@
     </message>
     <message>
         <source>Show settings</source>
-        <translation type="unfinished"/>
+        <translation>Pokaż ustawienia</translation>
     </message>
     <message>
         <source>Hide settings</source>
-        <translation type="unfinished"/>
+        <translation>Ukryj ustawienia</translation>
     </message>
     <message>
         <source>Personal ringtones</source>
@@ -98,15 +98,15 @@
     </message>
     <message>
         <source>%1 digits</source>
-        <translation type="unfinished"/>
+        <translation>%1 cyfr</translation>
     </message>
     <message>
         <source>Full match</source>
-        <translation type="unfinished"/>
+        <translation>Pełne dopasowanie</translation>
     </message>
     <message>
         <source>Match numbers by right digits</source>
-        <translation type="unfinished"/>
+        <translation>Dopasuj numery według odpowiednich cyfr</translation>
     </message>
 </context>
 <context>
