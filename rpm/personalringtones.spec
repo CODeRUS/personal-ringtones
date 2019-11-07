@@ -15,8 +15,6 @@ BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  desktop-file-utils
 BuildRequires:  sailfish-svg2png
 
-BuildRequires:  sailfish-components-pickers-qt5
-
 %description
 Application for assigning personal ringtones
 
