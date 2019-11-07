@@ -86,11 +86,11 @@
     </message>
     <message>
         <source>Show settings</source>
-        <translation type="unfinished"/>
+        <translation>显示设置</translation>
     </message>
     <message>
         <source>Hide settings</source>
-        <translation type="unfinished"/>
+        <translation>隐藏设置</translation>
     </message>
     <message>
         <source>Personal ringtones</source>
@@ -98,15 +98,15 @@
     </message>
     <message>
         <source>%1 digits</source>
-        <translation type="unfinished"/>
+        <translation>%1 个数字</translation>
     </message>
     <message>
         <source>Full match</source>
-        <translation type="unfinished"/>
+        <translation>全部匹配</translation>
     </message>
     <message>
         <source>Match numbers by right digits</source>
-        <translation type="unfinished"/>
+        <translation>通过正确数字匹配号码</translation>
     </message>
 </context>
 <context>
