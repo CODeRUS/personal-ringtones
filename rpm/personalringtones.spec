@@ -39,8 +39,8 @@ desktop-file-install --delete-original \
    %{buildroot}%{_datadir}/applications/*.desktop
 
 %post
-systemctl-user restart voicecall-manager.service || :
 systemctl-user restart ngfd.service || :
+systemctl-user restart voicecall-manager.service || :
 
 %postun
 systemctl-user restart ngfd.service || :
