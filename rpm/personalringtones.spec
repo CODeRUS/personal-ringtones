@@ -54,4 +54,5 @@ systemctl-user restart voicecall-manager.service || :
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 %{_datadir}/mapplauncherd/privileges.d/%{name}.privileges
 %{_datadir}/ngfd/events.d/personal_ringtone.ini
+%{_datadir}/ngfd/events.d/important_ringtone.ini
 /usr/lib/voicecall/plugins/*.so
