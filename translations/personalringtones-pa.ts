@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr_FR" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pa" version="2.1">
 <context>
     <name/>
     <message>

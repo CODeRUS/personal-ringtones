@@ -1,131 +1,131 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_PT" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="nb" version="2.1">
 <context>
     <name/>
     <message>
         <source>Personal Ringtones</source>
-        <translation>Toques Personalizados</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>AboutPage</name>
     <message>
         <source>About</source>
-        <translation>Acerca</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
         <source>Personal Ringtones</source>
-        <translation>Toques Personalizados</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ImportantContacts</name>
     <message>
         <source>Add contact</source>
-        <translation>Adicionar contacto</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Important contacts</source>
-        <translation>Contactos importantes</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Remover</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>No contacts yet</source>
-        <translation>Ainda não adicionaste contactos</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Pull down to add important contacts, which will ring always</source>
-        <translation>Desliza para baixo para adicionar contactos importantes que tocam sempre</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MainPage</name>
     <message>
         <source>Personal Ringtones</source>
-        <translation>Toques Personalizados</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Choose personal ringtones</source>
-        <translation>Escolhe toques personalizados</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>About</source>
-        <translation>Acerca</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Set random ringtone</source>
-        <translation>Utilizar toques aleatórios</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Choose important contacts</source>
-        <translation>Escolhe contactos importantes</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>PersonalRingtones</name>
     <message>
         <source>Add contact</source>
-        <translation>Adicionar contacto</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Remover</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>No contacts yet</source>
-        <translation>Ainda não adicionaste contactos</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Pull down to add contacts</source>
-        <translation>Desliza para baixo para adicionar contactos</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Show settings</source>
-        <translation>Exibir definições</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Hide settings</source>
-        <translation>Ocultar definições</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Personal ringtones</source>
-        <translation>Toques personalizados</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>%1 digits</source>
-        <translation>%1 dígitos</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Full match</source>
-        <translation>Conferir números na integra</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Match numbers by right digits</source>
-        <translation>Conferir números apenas pelos dígitos à direita</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>RandomRingtone</name>
     <message>
         <source>Random ringtones</source>
-        <translation>Toques aleatórios</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Use random ringtone</source>
-        <translation>Utilizar toques aleatórios</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Select folder for random ringtone</source>
-        <translation>Seleciona uma pasta para toques aleatórios</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Random ringtone will be played for all non-personalized contacts</source>
-        <translation>Toques aleatórios serão utilizados para todos os contactos não personalizados</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>
