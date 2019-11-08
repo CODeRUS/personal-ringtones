@@ -36,8 +36,12 @@ Page {
                     var page = pageStack.push("Sailfish.Contacts.ContactSelectPage", {
                         requiredProperty: PeopleModel.PhoneNumberRequired
                         })
-                    page.contactClicked.connect(function(contact, prop, propType) {
-                        var number = prop.number
+                    page.contactClicked.connect(function(contact, arg2, arg3, arg4) {
+                        if (arg4 === 'phoneNumber') {
+                            var number = arg3.number
+                        } else {
+                            number = arg2.number
+                        }
                         var dialog = pageStack.replace("com.jolla.settings.system.SoundDialog", {
                             activeFilename: "",
                             activeSoundTitle: "no sound",
