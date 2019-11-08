@@ -23,11 +23,13 @@ Page {
             }
 
             Repeater {
+                height: Theme.itemSizeMedium
+                width: parent.width
                 model: ListModel {
                     ListElement {
                         pageTitle: qsTr("Choose personal ringtones")
                         pageName: "PersonalRingtones.qml"
-                        iconName: "image://theme/icon-m-contact"
+                        iconName: "image://theme/icon-m-media-artists"
                     }
                     ListElement {
                         pageTitle: qsTr("Choose important contacts")
@@ -53,7 +55,7 @@ Page {
     Component {
         id: menuItem
         BackgroundItem {
-            contentHeight: Theme.itemSizeMedium
+            id: delegate
 
             HighlightImage {
                 id: icon
@@ -61,6 +63,7 @@ Page {
                 anchors.leftMargin: Theme.horizontalPageMargin
                 anchors.verticalCenter: parent.verticalCenter
                 source: iconName
+                highlighted: delegate.highlighted
             }
 
             Label {
@@ -71,6 +74,7 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
                 truncationMode: TruncationMode.Fade
                 text: pageTitle
+                color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
             }
             onClicked: pageStack.push(Qt.resolvedUrl(pageName))
         }
