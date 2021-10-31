@@ -42,6 +42,10 @@ Page {
                         } else {
                             number = arg2.number
                         }
+                        // Strip out spaces (and other separators) that might
+                        // be valid in contact list but not in personal
+                        // ringtones list.
+                        number = number.replace(/[^0-9+]/g, "")
                         var dialog = pageStack.replace("com.jolla.settings.system.SoundDialog", {
                             activeFilename: "",
                             activeSoundTitle: "no sound",
