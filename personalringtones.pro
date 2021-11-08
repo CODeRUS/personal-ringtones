@@ -26,7 +26,11 @@ privileges.files = personalringtones.privileges
 privileges.path = /usr/share/mapplauncherd/privileges.d/
 INSTALLS += privileges
 
-libs.files = lib/*.so
+contains(QMAKE_HOST.arch, aarch64) {
+    libs.files = lib64/*.so
+} else {
+    libs.files = lib/*.so
+}
 libs.path = /usr/lib/voicecall/plugins
 INSTALLS += libs
 
