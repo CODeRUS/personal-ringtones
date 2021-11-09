@@ -31,7 +31,7 @@ contains(QMAKE_HOST.arch, aarch64) {
 } else {
     libs.files = lib/*.so
 }
-libs.path = /usr/lib/voicecall/plugins
+libs.path = $$[QT_INSTALL_LIBS]/voicecall/plugins
 INSTALLS += libs
 
 ngfd.files = \
