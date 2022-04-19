@@ -2,7 +2,7 @@ Name:       personalringtones
 
 Summary:    Personal ringtones
 Version:    1.2.4
-Release:    2
+Release:    3
 Group:      Qt/Qt
 License:    WTFPL
 URL:        http://github.com/coderus/personalringtones
