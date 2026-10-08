@@ -26,13 +26,11 @@ privileges.files = personalringtones.privileges
 privileges.path = /usr/share/mapplauncherd/privileges.d/
 INSTALLS += privileges
 
-contains(QMAKE_HOST.arch, aarch64) {
-    libs.files = lib64/*.so
-} else {
-    libs.files = lib/*.so
-}
-libs.path = $$[QT_INSTALL_LIBS]/voicecall/plugins
-INSTALLS += libs
+# The voicecall plugin is built from plugin/plugin.pro (see rpm spec)
+OTHER_FILES += \
+    plugin/plugin.pro \
+    plugin/personalringtoneplugin.h \
+    plugin/personalringtoneplugin.cpp
 
 ngfd.files = \
     ngfd/personal_ringtone.ini \
