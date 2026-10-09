@@ -9,61 +9,96 @@ on:
       - master
 
 env:
-  RELEASE: 4.2.0.21
+  RELEASE4: 4.6.0.13
+  RELEASE5: 5.0.0.43
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
-    - name: Prepare
-      run: mkdir output
+    - name: Prepare sfos 4 build
+      run: rm -rf RPMS
 
     - name: Build armv7hl
-      run: docker run --rm --privileged -v $PWD:/share coderus/sailfishos-platform-sdk:$RELEASE /bin/bash -c "
-            cd /home/mersdk ;
-            mkdir -p build ;
-            cd build ;
-            cp -r /share/* . ;
-            mb2 -t SailfishOS-$RELEASE-armv7hl build ;
-            sudo cp -r RPMS/*.rpm /share/output"
-
-    - name: Build i486
-      run: docker run --rm --privileged -v $PWD:/share coderus/sailfishos-platform-sdk:$RELEASE /bin/bash -c "
-            cd /home/mersdk ;
-            mkdir -p build ;
-            cd build ;
-            cp -r /share/* . ;
-            mb2 -t SailfishOS-$RELEASE-i486 build ;
-            sudo cp -r RPMS/*.rpm /share/output"
+      uses: coderus/github-sfos-build@master
+      with:
+        release: ${{ env.RELEASE4 }}
+        arch: armv7hl
 
     - name: Build aarch64
-      run: docker run --rm --privileged -v $PWD:/share coderus/sailfishos-platform-sdk:$RELEASE /bin/bash -c "
-            cd /home/mersdk ;
-            mkdir -p build ;
-            cd build ;
-            cp -r /share/* . ;
-            mb2 -t SailfishOS-$RELEASE-aarch64 build ;
-            sudo cp -r RPMS/*.rpm /share/output"
-      
-    - name: Upload build result
-      uses: actions/upload-artifact@v2
+      uses: coderus/github-sfos-build@master
       with:
-        name: output-rpms
-        path: output
+        release: ${{ env.RELEASE4 }}
+        arch: aarch64
+
+    - name: Build i486
+      uses: coderus/github-sfos-build@master
+      with:
+        release: ${{ env.RELEASE4 }}
+        arch: i486
+
+    - name: Upload build result
+      uses: actions/upload-artifact@v4
+      with:
+        name: sfos4
+        path: RPMS
 
     - name: Create release
       if: contains(github.ref, 'release')
       run: |
         set -x
         assets=()
-        for asset in output/*.rpm; do
-          assets+=("-a" "$asset")
+        for asset in RPMS/*.rpm; do
+          assets+=("$asset")
         done
         tag_name="${GITHUB_REF##*/}"
-        hub release create "${assets[@]}" -m "$tag_name" "$tag_name"
+        gh release create "${tag_name}_${RELEASE4}" "${assets[@]}" --title "$tag_name $RELEASE4"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Prepare sfos 5 build
+      run: |
+        rm -rf RPMS
+        docker rm -vf $(docker ps -aq) ||:
+        docker rmi -f $(docker images -aq) ||:
+        docker system prune --force ||:
+
+    - name: Build armv7hl
+      uses: coderus/github-sfos-build@master
+      with:
+        release: ${{ env.RELEASE5 }}
+        arch: armv7hl
+
+    - name: Build aarch64
+      uses: coderus/github-sfos-build@master
+      with:
+        release: ${{ env.RELEASE5 }}
+        arch: aarch64
+
+    - name: Build i486
+      uses: coderus/github-sfos-build@master
+      with:
+        release: ${{ env.RELEASE5 }}
+        arch: i486
+
+    - name: Upload build result
+      uses: actions/upload-artifact@v4
+      with:
+        name: sfos5
+        path: RPMS
+
+    - name: Create release
+      if: contains(github.ref, 'release')
+      run: |
+        set -x
+        assets=()
+        for asset in RPMS/*.rpm; do
+          assets+=("$asset")
+        done
+        tag_name="${GITHUB_REF##*/}"
+        gh release create "${tag_name}_${RELEASE5}" "${assets[@]}" --title "$tag_name $RELEASE5"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

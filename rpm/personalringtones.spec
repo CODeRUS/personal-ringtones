@@ -8,14 +8,14 @@ License:    WTFPL
 URL:        http://github.com/coderus/personalringtones
 Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 0.10.9
-Requires:   voicecall-qt5 >= 0.8.10
+Requires:   voicecall-qt5
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  pkgconfig(ngf-qt5)
 BuildRequires:  pkgconfig(mlite5)
-BuildRequires:  voicecall-qt5-devel >= 0.8.10
+BuildRequires:  voicecall-qt5-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  sailfish-svg2png
 
@@ -70,7 +70,7 @@ systemctl-user restart voicecall-manager.service || :
 
 %changelog
 * Thu Oct 08 2026 Denis Robel <denis.robel@gmx.de> - 1.3.0-1
-- Build the voicecall plugin from source against current voicecall headers
-  (fixes ABI break with voicecall >= 0.8.10 / Sailfish OS 5.x)
+- Build the voicecall plugin from source against the target's voicecall
+  headers (fixes ABI break on Sailfish OS 5.x)
 - Play ringtone only when requested by the call UI (playRingtoneRequested)
 - Keep contact/SIM ringtone passed by the call UI as fallback
