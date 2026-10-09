@@ -15,6 +15,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
     - uses: actions/checkout@v4
@@ -46,18 +48,24 @@ jobs:
         name: sfos4
         path: RPMS
 
-    - name: Create release
-      if: contains(github.ref, 'release')
+    # Release assets are keyed by filename. Both SDKs emit the same NEVRA.
+    - name: Stash SFOS 4.6 RPMs
       run: |
-        set -x
-        assets=()
-        for asset in RPMS/*.rpm; do
-          assets+=("$asset")
+        set -euo pipefail
+        mkdir -p "$RUNNER_TEMP/release-rpms"
+        shopt -s nullglob
+        copied=0
+        for rpm in RPMS/*.rpm; do
+          base="$(basename "$rpm" .rpm)"
+          arch="${base##*.}"
+          stem="${base%.*}"
+          cp "$rpm" "$RUNNER_TEMP/release-rpms/${stem}.sfos4.6.${arch}.rpm"
+          copied=1
         done
-        tag_name="${GITHUB_REF##*/}"
-        gh release create "${tag_name}_${RELEASE4}" "${assets[@]}" --title "$tag_name $RELEASE4"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if [ "$copied" -eq 0 ]; then
+          echo "No SFOS 4.6 RPMs" >&2
+          exit 1
+        fi
 
     - name: Prepare sfos 5 build
       run: |
@@ -90,15 +98,36 @@ jobs:
         name: sfos5
         path: RPMS
 
+    - name: Stash SFOS 5.0 RPMs
+      run: |
+        set -euo pipefail
+        mkdir -p "$RUNNER_TEMP/release-rpms"
+        shopt -s nullglob
+        copied=0
+        for rpm in RPMS/*.rpm; do
+          base="$(basename "$rpm" .rpm)"
+          arch="${base##*.}"
+          stem="${base%.*}"
+          cp "$rpm" "$RUNNER_TEMP/release-rpms/${stem}.sfos5.0.${arch}.rpm"
+          copied=1
+        done
+        if [ "$copied" -eq 0 ]; then
+          echo "No SFOS 5.0 RPMs" >&2
+          exit 1
+        fi
+
     - name: Create release
       if: contains(github.ref, 'release')
       run: |
-        set -x
-        assets=()
-        for asset in RPMS/*.rpm; do
-          assets+=("$asset")
-        done
+        set -euo pipefail
+        shopt -s nullglob
+        sfos4=( "$RUNNER_TEMP/release-rpms/"*.sfos4.6.*.rpm )
+        sfos5=( "$RUNNER_TEMP/release-rpms/"*.sfos5.0.*.rpm )
+        if [ ${#sfos4[@]} -eq 0 ] || [ ${#sfos5[@]} -eq 0 ]; then
+          echo "Release requires RPMs for both SFOS 4.6 and 5.0" >&2
+          exit 1
+        fi
         tag_name="${GITHUB_REF##*/}"
-        gh release create "${tag_name}_${RELEASE5}" "${assets[@]}" --title "$tag_name $RELEASE5"
+        gh release create "$tag_name" "${sfos4[@]}" "${sfos5[@]}" --title "$tag_name"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
